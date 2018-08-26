@@ -15,32 +15,30 @@ MongoClient.connect(url, function(err, client) {
 
     const db = client.db(dbName);
 
-   /* db.collection('Todos').find({completed : true}).toArray().then((result) => {
-        console.log(`result :`, JSON.stringify(result, undefined,2))
-    }, (err) => {
-        console.log(`unable to load data`)
-    })*/
 
-    db.collection('Users').deleteMany({name : "suru"}).then((result) => {
+  /* db.collection('Todos').findOneAndUpdate({_id : new ObjectID('5b823a3b8a5600495cda0ae9')},{$set: { text : 'text', completed : false}}, {
+       returnOriginal : true
+    }
+
+   ).then((result) => {
         console.log(result)
-       // console.log(`result :`, JSON.stringify(result, undefined,2))
+        // console.log(`result :`, JSON.stringify(result, undefined,2))
     }, (err) => {
-        console.log(`unable to load data`)
+       console.log(`unable to load data`, err)
+   })
+*/
+    db.collection('Users').findOneAndUpdate({_id : new ObjectID('5b82407e3950cc0e34af1103')},
+        {$inc: {name : "Purush", age : 10}}, {
+            returnOriginal : true
+        }
+
+    ).then((result) => {
+        console.log(result)
+        // console.log(`result :`, JSON.stringify(result, undefined,2))
+    }, (err) => {
+        console.log(`unable to load data`, err)
     })
 
-  /*  db.collection('Todos').deleteOne({completed : false}).then((result) => {
-        console.log(result)
-        // console.log(`result :`, JSON.stringify(result, undefined,2))
-    }, (err) => {
-        console.log(`unable to load data`)
-    })*/
-
-   /* db.collection('Todos').findOneAndDelete({completed : false}).then((result) => {
-        console.log(result)
-        // console.log(`result :`, JSON.stringify(result, undefined,2))
-    }, (err) => {
-        console.log(`unable to load data`)
-    })*/
   //  client.close();
 
 });

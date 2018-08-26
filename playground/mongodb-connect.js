@@ -15,7 +15,7 @@ MongoClient.connect(url, function(err, client) {
 
     const db = client.db(dbName);
 
-    db.collection('Todos').insertOne({
+ /*   db.collection('Todos').insertOne({
         text: 'something need to do',
         completed: false
 
@@ -24,20 +24,20 @@ MongoClient.connect(url, function(err, client) {
             return console.log("Unable to connect DB");
         }
         console.log(JSON.stringify(result.ops, undefined, 2))
-    })
+    })*/
 
     db.collection('Users').insertOne({
 
         name: 'Purush',
         course: ['React', 'Node'],
+        age : 29,
         email: 'purush.kuppan@gmail.com'
 
     }, (err, result) => {
         if (err) {
             return console.log("Unable to connect DB");
         }
-      //  console.log(JSON.stringify(result.ops, undefined, 2))
-         consloe.log(result.ops[0]._id.getTime())
+        console.log(JSON.stringify(result.ops, undefined, 2))
     })
 
     client.close();
