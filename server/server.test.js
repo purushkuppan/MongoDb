@@ -4,12 +4,14 @@ const superTest = require('supertest')
 const {app} = require('./server')
 const {Todo} = require('./todo')
 
-
+const test = [ { text : "test"}, { text : "test 1"}];
 beforeEach((done) => {
-    Todo.remove({}).then(()=> done())
-})
+    Todo.remove({}).then(()=> {
+        return Todo.insertMany(test)
+    }).then(()=> done());
+});
 
-describe('POST /todos', () => {
+describe('POST /todo', () => {
     it("should create new rec", (done) => {
         var text = "test text"
 
@@ -25,7 +27,7 @@ describe('POST /todos', () => {
                 return done(err)
             }
 
-            Todo.find().then((todos) => {
+            Todo.find({text}).then((todos) => {
                 expect(todos.length).toBe(1)
                 expect(todos[0].text).toBe(text)
                 done()
@@ -41,7 +43,7 @@ describe('POST /todos', () => {
         superTest(app).
         post('/todo').
         send({} ).
-        expect(200).
+        expect(400).
        end((err,res) => {
 
             if(err) {
@@ -49,7 +51,7 @@ describe('POST /todos', () => {
             }
 
             Todo.find().then((todos) => {
-                expect(todos.length).toBe(1)
+                expect(todos.length).toBe(2)
                 done()
             }).catch((e)=> {
                 done(e)
@@ -58,4 +60,21 @@ describe('POST /todos', () => {
         })
 
     })
+})
+
+
+describe('GET /todo', () => {
+    it("should create new rec", (done) => {
+
+        superTest(app).
+        get('/todo').
+        expect(200).
+        expect((res) => {
+            console.log(res)
+            expect(res.body.length).toBe(2)
+        }).end(done)
+
+    })
+
+
 })

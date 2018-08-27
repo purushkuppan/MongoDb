@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 var Todo = mongoose.model('Todos', {
     text : {
-        type : String
+        type : String,
+        required: true
     },
     completed : {
         type : Boolean
