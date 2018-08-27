@@ -32,6 +32,26 @@ app.post('/user', (req, res) => {
 
 })
 
+app.get('/user', (req, res) => {
+
+  User.find().then((user) => {
+      res.send(user)
+  }, (err) => {
+      res.status(400).send(e);
+  })
+
+})
+
+app.get('/todo', (req, res) => {
+
+    Todo.find().then((todo) => {
+        res.send(todo)
+    }, (err) => {
+        res.status(400).send(e);
+    })
+
+})
+
 app.listen(4000, () =>{
     console.log('App started')
 })
