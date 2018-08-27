@@ -35,3 +35,7 @@ app.post('/user', (req, res) => {
 app.listen(4000, () =>{
     console.log('App started')
 })
+
+module.exports = {
+    app
+}
