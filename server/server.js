@@ -52,6 +52,19 @@ app.get('/todo', (req, res) => {
 
 })
 
+app.get('/todo/:id', (req, res) => {
+var id = req.params.id;
+    Todo.find({_id : id}).then((todo) => {
+        if(todo.length>0)
+        res.send(todo)
+        else
+            res.status(404).send(todo);
+    }, (err) => {
+        res.status(400).send(err);
+    })
+
+})
+
 app.listen(4000, () =>{
     console.log('App started')
 })

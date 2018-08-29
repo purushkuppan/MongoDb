@@ -3,8 +3,9 @@ const superTest = require('supertest')
 
 const {app} = require('./server')
 const {Todo} = require('./todo')
+const {ObjectID} = require('mongodb')
 
-const test = [ { text : "test"}, { text : "test 1"}];
+const test = [ { _id : new ObjectID(), text : "test"}, { _id : new ObjectID(), text : "test 1"}];
 beforeEach((done) => {
     Todo.remove({}).then(()=> {
         return Todo.insertMany(test)
@@ -77,4 +78,29 @@ describe('GET /todo', () => {
     })
 
 
+})
+
+describe('GET/todo/:id', (done)=>{
+    it('should check id value',  () => {
+        superTest(app)
+            .get(`todo/${test[0]._id.toString()}`)
+            .expect(200)
+            .expect((res)=> {
+                expect(res.body[0].text).toBe(test[0].text)
+            }).end(done)
+    });
+
+    it('should check id value',  () => {
+        superTest(app)
+            .get(`todo/'5b839770fbc04f2674d83ff3'`)
+            .expect(404)
+            .end(done)
+    });
+
+    it('should check id value',  () => {
+        superTest(app)
+            .get(`todo/'123'`)
+            .expect(400)
+            .end(done)
+    });
 })
